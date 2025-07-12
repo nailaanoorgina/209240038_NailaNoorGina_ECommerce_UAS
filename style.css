@@ -1,0 +1,170 @@
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: 'Segoe UI', sans-serif;
+  background-color: #fff;
+  color: #333;
+  line-height: 1.6;
+}
+
+header {
+  background-color: maroon;
+  color: white;
+  padding: 1rem;
+  text-align: center;
+}
+
+nav ul {
+  display: flex;
+  justify-content: center;
+  list-style: none;
+  margin-top: 10px;
+  flex-wrap: wrap;
+}
+
+nav li { margin: 0 1rem; }
+
+nav a {
+  color: white;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.produk-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1rem;
+  padding: 2rem;
+}
+
+.card {
+  border: 1px solid #9e9494;
+  border-radius: 5px;
+  padding: 1rem;
+  text-align: center;
+  background-color: #d5c0b6;
+}
+
+.card img {
+  max-width: 300px;
+  height: 200px;
+  object-fit: cover;
+}
+
+.Harga {
+  font-weight: bold;
+  color: maroon;
+  margin: 0.5rem 0;
+}
+
+.produk-detail, .kontak-form {
+  max-width: 800px;
+  margin: 2rem auto;
+  padding: 1rem;
+}
+
+.produk-detail img {
+  width: 300px;
+  object-fit: cover;
+  margin-bottom: 1rem;
+}
+
+img {
+  display: block;
+  max-width: 300px;
+  height: 50px;
+}
+
+.produk-detail button {
+  background-color: maroon;
+  color: white;
+  border: none;
+  padding: 0.7rem 1.5rem;
+  font-size: 1rem;
+  cursor: pointer;
+  margin-top: 1rem;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+}
+
+form label {
+  margin-top: 1rem;
+  font-weight: bold;
+}
+
+form input, form textarea {
+  padding: 0.5rem;
+  margin-top: 0.3rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+form button {
+  margin-top: 1rem;
+  background-color: maroon;
+  color: white;
+  border: none;
+  padding: 0.7rem;
+  cursor: pointer;
+}
+
+footer {
+  background-color: maroon;
+  color: white;
+  text-align: center;
+  padding: 1rem;
+  margin-top: 2rem;
+  font-size: 0.9rem;
+}
+
+@media (max-width: 600px) {
+  nav ul { flex-direction: column; }
+  .produk-grid { padding: 1rem; }
+}
+
+.keranjang-item {
+  position: relative;
+  background-color: white;
+  margin-bottom: 1rem;
+  padding: 1rem;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.keranjang-item span {
+  font-size: 1rem;
+}
+
+.hapus-produk {
+  position: absolute;
+  top: 8px;
+  right: 10px;
+  background-color: maroon;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 24px;
+  height: 24px;
+  cursor: pointer;
+  font-weight: bold;
+  line-height: 0;
+}
+
+.checkout-btn {
+  width: 100%;
+  padding: 1rem;
+  background-color: maroon;
+  color: white;
+  border: none;
+  font-size: 1.1rem;
+  font-weight: bold;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-top: 1rem;
+}
