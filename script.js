@@ -1,69 +1,86 @@
-<!DOCTYPE html>
-<html lang="id">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Solstichtime</title>
-  <link rel="stylesheet" href="style.css" />
-</head>
-<body>
+const produkList = {
+  gshock: { id: "gshock", nama: "Casio G-Shock", harga: 2500000 },
+  edifice: { id: "edifice", nama: "Casio Edifice", harga: 3200000 },
+  protrek: { id: "protrek", nama: "Casio Pro Trek", harga: 4000000 },
+  vintage: { id: "vintage", nama: "Casio Vintage", harga: 800000 },
+  classic: { id: "classic", nama: "Casio Classic", harga: 500000 },
+  babyg: { id: "babyg", nama: "Casio Baby-G", harga: 2000000 },
+  oceanus: { id: "oceanus", nama: "Casio Oceanus", harga: 6500000 }
+};
 
-  <header>
-    <h1>Solstichtime</h1>
-    <nav>
-      <ul>
-        <li><a href="#home">Beranda</a></li>
-        <li><a href="#produk">Produk</a></li>
-        <li><a href="#keranjang">Keranjang</a></li>
-        <li><a href="#kontak">Kontak</a></li>
-      </ul>
-    </nav>
-  </header>
+function tambahKeKeranjang(idProduk) {
+  let keranjang = JSON.parse(localStorage.getItem("keranjang")) || [];
+  const produk = produkList[idProduk];
+  const index = keranjang.findIndex(item => item.id === idProduk);
 
-  <!-- Halaman Beranda -->
-  <section id="home">
-    <div class="produk-grid">
-      <!-- 7 Produk -->
-      <!-- (salin semua <div class="card">...</div> dari file sebelumnya) -->
-      <!-- Aku sudah rapikan di file kamu sebelumnya, tidak diubah -->
-    </div>
-  </section>
+  if (index !== -1) {
+    keranjang[index].jumlah += 1;
+  } else {
+    keranjang.push({ ...produk, jumlah: 1 });
+  }
 
-  <!-- Detail Produk -->
-  <section id="produk">
-    <!-- Salin bagian .produk-detail dari HTML sebelumnya -->
-  </section>
+  localStorage.setItem("keranjang", JSON.stringify(keranjang));
+  tampilkanKeranjang();
+  alert(${produk.nama} telah ditambahkan ke keranjang.);
+}
 
-  <!-- Keranjang -->
-  <section id="keranjang" class="kontak-form">
-    <h2>Keranjang Belanja</h2>
-    <div id="isiKeranjang">
-      <p>Keranjang masih kosong.</p>
-    </div>
-    <button onclick="checkout()" class="checkout-btn">Checkout</button>
-    <button onclick="hapusKeranjang()" style="margin-top:1rem; background-color:#555; color:white;">Hapus Semua</button>
-  </section>
+function tampilkanKeranjang() {
+  const keranjang = JSON.parse(localStorage.getItem("keranjang")) || [];
+  const container = document.getElementById("isiKeranjang");
 
-  <!-- Form Kontak -->
-  <section id="kontak" class="kontak-form">
-    <h2>Hubungi Kami</h2>
-    <form>
-      <label for="nama">Nama</label>
-      <input type="text" id="nama" placeholder="Nama Anda" required />
-      <label for="email">Email</label>
-      <input type="email" id="email" placeholder="email@example.com" required />
-      <label for="pesan">Pesan</label>
-      <textarea id="pesan" rows="5" placeholder="Tulis pesan Anda..." required></textarea>
-      <button type="submit">Kirim</button>
-    </form>
-  </section>
+  if (keranjang.length === 0) {
+    container.innerHTML = "<p>Keranjang masih kosong.</p>";
+    return;
+  }
 
-  <footer>
-    <p>Email: solstichtime@gmail.com | Telp: 082240033035</p>
-    <p>Alamat: Jl. Anggrek No.1933, Bandung</p>
-    <p>&copy; 2025 Solstichtime</p>
-  </footer>
+  let html = "";
+  let total = 0;
 
-  <script src="script.js"></script>
-</body>
-</html>
+  keranjang.forEach((item, index) => {
+    total += item.harga * item.jumlah;
+    html += `
+      <div class="keranjang-item">
+        <span>${item.nama} - Rp ${item.harga.toLocaleString()} x ${item.jumlah}</span>
+        <button class="hapus-produk" onclick="hapusItem(${index})">&times;</button>
+      </div>
+     `;
+     });
+
+     html += <p><strong>Total: Rp ${total.toLocaleString()}</strong></p>;
+     container.innerHTML = html;
+}
+
+
+function hapusKeranjang() {
+  if (confirm("Apakah Anda yakin ingin mengosongkan keranjang?")) {
+    localStorage.removeItem("keranjang");
+    tampilkanKeranjang();
+  }
+}
+
+function checkout() {
+  const keranjang = JSON.parse(localStorage.getItem("keranjang")) || [];
+  if (keranjang.length === 0) {
+    alert("Keranjang masih kosong.");
+    return;
+  }
+  alert("Pembelian berhasil!");
+  localStorage.removeItem("keranjang");
+  tampilkanKeranjang();
+}
+
+function hapusItem(index) {
+  let keranjang = JSON.parse(localStorage.getItem("keranjang")) || [];
+  keranjang.splice(index, 1);
+  localStorage.setItem("keranjang", JSON.stringify(keranjang));
+  tampilkanKeranjang();
+}
+
+
+document.addEventListener("DOMContentLoaded", () => {
+  tampilkanKeranjang();
+  document.querySelectorAll(".produk-detail button").forEach(tombol => {
+    const idProduk = tombol.getAttribute("data-id");
+    tombol.addEventListener("click", () => tambahKeKeranjang(idProduk));
+  });
+});
